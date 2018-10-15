@@ -1,26 +1,11 @@
-function getData(url) {
-  let xhr = new XMLHttpRequest();
-
-  xhr.open('GET', url, true);
-  xhr.send();
-  xhr.onreadystatechange = () => {
-
-    if (xhr.readyState != 4) return;
-
-    if (xhr.status != 200) {
-
-      alert(`Ошибка ${xhr.status}`);
-    } else {
-      let response = JSON.parse(xhr.responseText)
-      formatter(response);
-    }
-  }
-}
-
 const url = `https://api.randomuser.me/1.0/?results=50&nat=gb,us&inc=gender,name,location,email,phone,picture`;
-let formattedData;
 
-getData(url);
+let promise = fetch(url)
+  .then(response => {return (response.json())})
+  .then(result => formatter(result))
+  .catch(error => alert(error))
+
+let formattedData;
 
 function formatter(response) {
   formattedData = response.results;
